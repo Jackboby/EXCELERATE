@@ -76,9 +76,8 @@
         // !!! UPDATE THIS LIST WITH YOUR ACTUAL FILE NAMES !!!
         const REPO_URL = "https://raw.githubusercontent.com/Jackboby/EXCELERATE/main/Song/";
         const SONG_FILES = [
-            "Song1.mp3", 
-            "Song2.mp3", 
-            "Song3.mp3"
+            "Isaiah40.mp3", 
+            "Psalm23.mp3"
         ];
         
         const COLOR_PALETTES = [
@@ -112,7 +111,7 @@
 
         // Invincibility Logic
         let invincibleTimer = 0;
-        const INVINCIBILITY_DURATION = 180; // frames (approx 3 seconds)
+        const INVINCIBILITY_DURATION = 3; // frames (approx 3 seconds)
 
         // Object Management
         const obstacles = [];
@@ -201,7 +200,7 @@
         scene.add(player);
 
         // Ring Geometry
-        const ringGeo = new THREE.TorusGeometry(1.5, 0.2, 8, 20);
+        const ringGeo = new THREE.TorusGeometry(1.5, 0.2, 9, 5);
         const ringMat = new THREE.MeshStandardMaterial({
             color: 0xFFFFFF,
             emissive: 0xFFFFFF,
@@ -247,7 +246,7 @@
             const r = Math.random();
             const xPos = (Math.random() - 0.5) * LANE_WIDTH * 1.5; 
 
-            if (r > 0.85) {
+            if (r > 0.97) {
                 // --- SPAWN RING ---
                 const mesh = new THREE.Mesh(ringGeo, ringMat);
                 mesh.position.set(xPos, 0.5, -120);
@@ -257,7 +256,7 @@
             } else {
                 // --- SPAWN OBSTACLE ---
                 const size = 1.5 + Math.random() * 1.5;
-                const geo = new THREE.TetrahedronGeometry(size, 0);
+                const geo = new THREE.TetrahedronGeometry(size, 3);
                 const mat = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Pure black
                 const mesh = new THREE.Mesh(geo, mat);
                 mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
