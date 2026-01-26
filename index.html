@@ -18,9 +18,23 @@
         #score-display { font-size: 2rem; font-weight: bold; transition: color 1s; }
         #status-display { font-size: 1.5rem; color: #00FFFF; font-weight: bold; text-shadow: 0 0 20px cyan; opacity: 0; transition: opacity 0.2s; }
         
-        #streak-bar-container { width: 100%; height: 10px; background: rgba(255,255,255,0.2); margin-top: 10px; border-radius: 5px; overflow: hidden; }
+        #streak-bar-container { width: 100%; height: 10px; background: rgba(255,255,255,0.2); margin-top: 10px; border-radius: 0px; overflow: hidden; }
         #streak-bar { width: 0%; height: 100%; background: white; box-shadow: 0 0 15px white; transition: width 0.1s linear; }
-        
+
+        @keyframes subtleShake {
+  0%   { transform: translate(0px, 0px) rotate(0deg); }
+  25%  { transform: translate(0.1px, -0.1px) rotate(-0.03deg); }
+  50%  { transform: translate(-0.1px, 0.1px) rotate(0.03deg); }
+  75%  { transform: translate(0.1px, 0.1px) rotate(-0.03deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+/* Common text elements */
+p, span, h1, h2, h3, h4, h5, h6, li, a, label, button, img {
+  display: inline-block; /* important so transform behaves nicely */
+  animation: subtleShake 2.5s infinite ease-in-out;
+}
+
         /* Menus */
         #start-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; pointer-events: auto; backdrop-filter: blur(5px); }
         h1 { color: white; font-size: 4rem; text-transform: uppercase; margin: 0; text-shadow: 0 0 20px white; font-style: italic; }
@@ -51,12 +65,12 @@
     </div>
 
     <div id="start-screen">
-        <img src="https://i.postimg.cc/Njrqbg2y/Project-Name-418.png" width=300px;></img>
+        <img src="https://github.com/Jackboby/EXCELERATE/blob/fb773248896cb204cd138f295eb152aef48299c9/Title.png" width=400px;></img>
         <div class="sub-text">TAP / SPACE to Switch Direction</div>
         <div class="sub-text">Hit RINGS for Boost & Invincibility</div>
         <div class="sub-text">Avoid Black Spikes</div>
         <div id="high-score-label">BEST STREAK: 0</div>
-        <button id="start-btn" class="btn">IGNITE</button>
+        <button id="start-btn" class="btn">EXCEL</button>
     </div>
 
     <script type="importmap">
