@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>EXCELERATE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; overflow: hidden; background-color: #050505; font-family: 'Courier New', Courier, monospace; user-select: none; }
+        body { margin: 0; overflow: hidden; background-color: #050505; font-family: "Jersey 15", Courier, monospace; user-select: none; }
         
         /* UI Overlay */
         #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box; }
@@ -39,7 +42,7 @@
     <div id="ui-layer">
         <div>
             <div id="score-display">SPEED: 0%</div>
-            <div id="status-display">OVERDRIVE ENGAGED</div>
+            <div id="status-display">EXCELLING</div>
             <div id="streak-bar-container"><div id="streak-bar"></div></div>
         </div>
         <div style="text-align: right;">
@@ -103,7 +106,7 @@
         let gameSpeed = 0;
         const BASE_SPEED = 0.5;
         const MAX_SPEED = 4.5;
-        const ACCELERATION = 0.001; 
+        const ACCELERATION = 0.0025; 
         
         let playerDir = 1; 
         const PLAYER_LATERAL_SPEED = 0.4;
