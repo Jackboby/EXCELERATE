@@ -141,12 +141,12 @@
         ];
         
         const COLOR_PALETTES = [
-    { main: 0xFFD17A, bg: 0x20140A },
-    { main: 0x51DBFF, bg: 0x121121 },
-    { main: 0xFF70FF, bg: 0x241120 },
-    { main: 0xB179F0, bg: 0x1E1527 },
-    { main: 0xFF4A57, bg: 0x2A1116 },
-    { main: 0x8CEB81, bg: 0x0F1D19 }
+    { main: 0xFFD17A, bg: 0x1F0800 },
+    { main: 0x51DBFF, bg: 0x110024 },
+    { main: 0xFF70FF, bg: 0x1E001A },
+    { main: 0xB179F0, bg: 0x180020 },
+    { main: 0xFF4A57, bg: 0x1E000D },
+    { main: 0x8CEB81, bg: 0x001010 }
 ];
 
         // --- GAME STATE ---
@@ -486,7 +486,7 @@
 
         function updateUI() {
             const speedPct = Math.floor((gameSpeed / MAX_SPEED) * 100);
-            document.getElementById('score-display').innerText = `VELOCITY: ${speedPct}% | SCORE: ${Math.floor(score)}`;
+            document.getElementById('score-display').innerText = `EXCELERATION: ${speedPct}% | SCORE: ${Math.floor(score)}`;
             document.getElementById('streak-bar').style.width = `${Math.min(speedPct, 100)}%`;
         }
 
