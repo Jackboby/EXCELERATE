@@ -438,7 +438,7 @@
                         // Penalty increases by factor of 0.05 per 1000 score
                         const basePenalty = 30;
                         const milestones = Math.floor(score / 1000);
-                        const penaltyMultiplier = 1 + (milestones * 0.05);
+                        const penaltyMultiplier = 1 + (milestones * 2);
                         const finalPenalty = Math.floor(basePenalty * penaltyMultiplier);
                         
                         score = Math.max(0, score - finalPenalty);
