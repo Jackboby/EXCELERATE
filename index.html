@@ -42,6 +42,7 @@
             width: 43px;
             height: auto;
             border-radius: 0px;
+            transition: filter 0.5s ease;
             filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
         }
 
@@ -142,13 +143,13 @@
         ];
           
         const COLOR_PALETTES = [
-    { main: 0xFFD17A, bg: 0x1D0E00 },
-    { main: 0x51DBFF, bg: 0x00151A },
-    { main: 0xFF70FF, bg: 0x1E001A },
-    { main: 0xB179F0, bg: 0x150022 },
-    { main: 0xFF5B5E, bg: 0x250009 },
-    { main: 0x8CEB81, bg: 0x001808 }
-];
+            { main: 0xFFD17A, bg: 0x1D0E00 },
+            { main: 0x51DBFF, bg: 0x00151A },
+            { main: 0xFF70FF, bg: 0x1E001A },
+            { main: 0xB179F0, bg: 0x150022 },
+            { main: 0xFF5B5E, bg: 0x250009 },
+            { main: 0x8CEB81, bg: 0x001808 }
+        ];
 
         // --- GAME STATE ---
         let isPlaying = false;
@@ -171,9 +172,10 @@
         const PLAYER_LATERAL_SPEED = 0.4;
         const LANE_WIDTH = 12;
 
-        // Invincibility Logic
+        // Invincibility & Cooldown Logic
         let invincibleTimer = 0;
-        const INVINCIBILITY_DURATION = 65; // Adjusted for roughly 3 seconds at 60fps
+        const INVINCIBILITY_DURATION = 65; 
+        let damageCooldown = 0; // Cooldown for taking damage/score loss
 
         // Object Management
         const obstacles = [];
@@ -234,19 +236,15 @@
             const songContainer = document.getElementById('song-container');
             const songLabel = document.getElementById('song-name');
             
-            // Format name: Remove .mp3 and insert space before numbers
             let rawName = SONG_FILES[currentSongIndex].replace('.mp3', '');
             let formattedName = rawName.replace(/(\D)(\d)/, '$1 $2');
             
             songLabel.innerText = formattedName;
 
-            // Trigger Animation (Remove class -> Trigger Reflow -> Add class)
             songContainer.classList.remove('tick-animation');
             void songContainer.offsetWidth; 
             songContainer.classList.add('tick-animation');
             
-            // ---------------------------
-
             if(isMuted) {
                 isLoadingMusic = false;
                 return;
@@ -356,22 +354,33 @@
             bloomPass.tintColor = currentColor.main;
             
             const uiColorString = currentColor.main.getStyle();
+            
+            // UI Updates
             document.getElementById('score-display').style.color = uiColorString;
             document.getElementById('streak-bar').style.boxShadow = `0 0 15px ${uiColorString}`;
+
+            const icon = document.getElementById('song-icon');
+            const songName = document.getElementById('song-name');
+            songName.style.color = uiColorString;
+            songName.style.textShadow = `0 0 10px ${uiColorString}`;
+            
+            // Tint icon using drop-shadow trick
+            icon.style.filter = `drop-shadow(0px 0px 0px ${uiColorString}) brightness(1.5)`;
         }
 
         function updatePhysics() {
             if (!isPlaying) return;
 
+            // Cooldown Logic
+            if (damageCooldown > 0) damageCooldown--;
+
             // Invincibility Timer
             if (invincibleTimer > 0) {
                 invincibleTimer--;
                 document.getElementById('status-display').style.opacity = 1;
-                // Widen FOV for speed effect
                 camera.fov = THREE.MathUtils.lerp(camera.fov, baseFov + 15, 0.05);
             } else {
                 document.getElementById('status-display').style.opacity = 0;
-                // Return FOV to normal
                 camera.fov = THREE.MathUtils.lerp(camera.fov, baseFov, 0.05);
             }
             camera.updateProjectionMatrix();
@@ -411,18 +420,38 @@
                 const distX = Math.abs(ob.mesh.position.x - player.position.x);
                 const hitSize = 1.5;
 
+                // Collision Detection
                 if (ob.active && distZ < hitSize && distX < hitSize) {
-                    ob.active = false;
-                    
+                    camera.position.x = (Math.random() - 0.5) * 2;
                     if (invincibleTimer > 0) {
                         // --- SMASH THROUGH OBSTACLE ---
+                        ob.active = false;
                         score += 100; // Bonus for smashing
-                        scene.remove(ob.mesh); // Poof, gone
-                    } else {
+                        scene.remove(ob.mesh); 
+                    } else if (damageCooldown <= 0) {
                         // --- HIT OBSTACLE (DAMAGE) ---
+                        // We do NOT set ob.active = false here, so we physically pass through it,
+                        // but damageCooldown prevents double-hitting instantly.
+                        
+                        // 1. Calculate Score Penalty (Number instead of Percentage)
+                        // Base penalty: 250
+                        // Penalty increases by factor of 0.05 per 1000 score
+                        const basePenalty = 30;
+                        const milestones = Math.floor(score / 1000);
+                        const penaltyMultiplier = 1 + (milestones * 0.05);
+                        const finalPenalty = Math.floor(basePenalty * penaltyMultiplier);
+                        
+                        score = Math.max(0, score - finalPenalty);
+
+                        // 2. Speed Penalty (Slow down, don't reset completely)
+                        // Drops speed to 60% of current, but never below BASE_SPEED
+                        gameSpeed = Math.max(BASE_SPEED, gameSpeed * 0.6);
+                        
+                        // 3. Set Cooldown (60 frames approx 1 second)
+                        damageCooldown = 60; 
+                        
+                        // 4. Visuals
                         player.position.z -= 2; 
-                        gameSpeed = BASE_SPEED;
-                        score = Math.floor(score * 0.86); 
                         camera.position.x = (Math.random() - 0.5) * 3;
                         
                         // Flash Red
@@ -536,6 +565,7 @@
             score = 0;
             gameSpeed = BASE_SPEED;
             invincibleTimer = 0;
+            damageCooldown = 0; // Reset Cooldown
             
             obstacles.forEach(o => scene.remove(o.mesh));
             obstacles.length = 0;
