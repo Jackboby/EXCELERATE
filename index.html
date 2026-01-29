@@ -11,10 +11,25 @@
         body { margin: 0; overflow: hidden; background-color: #050505; font-family: "Jersey 15", Courier, monospace; user-select: none; }
         
         /* UI Overlay */
-        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box; animation: subtleShake 1.8s infinite ease-in-out; }
+        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box; z-index: 5; }
         
+        /* Speed Overlay GIF */
+        #speed-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0; /* Controlled by JS */
+            pointer-events: none;
+            z-index: 2; /* Behind UI, above 3D */
+            mix-blend-mode: screen; /* Removes black bg from gif */
+            transition: opacity 0.1s linear;
+        }
+
         /* Text Styles */
-        .hud-text { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.8); letter-spacing: 2px; }
+        .hud-text { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.4); letter-spacing: 2px; }
         #score-display { font-size: 2rem; font-weight: bold; transition: color 0.3s; }
         #status-display { font-size: 1.5rem; color: white; font-weight: bold; text-shadow: 0 0 10px rgba(255,255,255,0.6); opacity: 0; transition: opacity 0.2s; }
         
@@ -47,15 +62,11 @@
         }
 
         /* Song Tick Animation */
-        .tick-animation {
-            animation: slideInTick 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+        .tick-animation { animation: slideInTick 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes slideInTick { 0% { opacity: 0; transform: translateX(30px); } 100% { opacity: 1; transform: translateX(0); } }
 
-        @keyframes slideInTick {
-            0% { opacity: 0; transform: translateX(30px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
+        /* Shake Animation */
+        .shake-anim { animation: subtleShake 1.8s infinite ease-in-out; }
         @keyframes subtleShake {
             0%   { transform: translate(0px, 0px) rotate(0deg); }
             25%  { transform: translate(0.4px, -0.4px) rotate(-0.04deg); }
@@ -64,41 +75,93 @@
             100% { transform: translate(0px, 0px) rotate(0deg); }
         }
 
-        /* Common text elements */
-        p, span, h1, h2, h3, h4, h5, h6, li, a, label, button, img {
-          display: inline-block; 
-          animation: subtleShake 1.8s infinite ease-in-out;
-        }
-
         /* Menus */
         #start-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; pointer-events: auto; backdrop-filter: blur(5px); }
-        h1 { color: white; font-size: 4rem; text-transform: uppercase; margin: 0; text-shadow: 0 0 20px white; font-style: italic; }
-        .sub-text { color: #aaa; margin-top: 10px; font-size: 1.2rem; }
-        #high-score-label { color: #FFE162; margin-top: 20px; font-size: 1.5rem; text-shadow: 0 0 10px orange; animation: subtleShake 1.8s infinite ease-in-out; }
-        
+        #title { animation: subtleShake 0.8s infinite ease-in-out; }
+        .sub-text { color: #aaa; margin-top: 10px; font-size: 1.2rem; animation: subtleShake 1.8s infinite ease-in-out; }
+       .sub-text2 { color: #aaa; margin-top: 10px; font-size: 1.2rem; animation: subtleShake 1.5s infinite ease-in-out; text-decoration: underline; text-decoration-color: rgba(255, 179, 28, 0.4); text-decoration-thickness: 2px; }
+        #high-score-label { color: #FFE162; margin-top: 20px; font-size: 1.5rem; text-shadow: 0 0 10px orange; animation: subtleShake 0.8s infinite ease-in-out; }
+
+/* Container adjustment for spacing */
+.difficulty-container { 
+    margin-top: 25px; 
+    text-align: center; 
+    width: 300px; 
+    animation: subtleShake 1.8s infinite ease-in-out; 
+}
+
+/* The horizontal track */
+#difficulty-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 12px;
+    background: #000;
+    border: 2px solid white; /* 2px white border */
+    outline: none;
+    cursor: pointer;
+    margin: 15px 0;
+}
+      .difficulty-label {
+        color: rgba(255, 179, 28, 0.4); font-size: 1.2rem; text-shadow: 0 0 10px rgba(255, 179, 28, 0.4);
+      }
+      #difficulty-value {
+        color: rgba(255, 179, 28, 0.4); font-size: 1.4rem; text-shadow: 0 0 10px rgba(255, 179, 28, 0.4);
+      }
+/* The sliding handle (Chrome, Safari, Edge, Opera) */
+#difficulty-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 50px;
+    height: 50px;
+    background-image: url("https://i.postimg.cc/3J58XHB9/Project-Name-422.png");
+    background-color: transparent;
+    background-size: contain;
+    cursor: pointer;
+    box-shadow: none;
+    filter: drop-shadow(0px 0px 10px rgba(255, 179, 28, 0.4));
+  animation: subtleShake 1.3s infinite ease-in-out;
+    border-radius: 0; /* Forced square/pixelated look */
+}
+
+/* The sliding handle (Firefox) */
+#difficulty-slider::-moz-range-thumb {
+    width: 30px;
+    height: 30px;
+    background-image: url('https://i.postimg.cc/3J58XHB9/Project-Name-422.png');
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: none;
+    cursor: pointer;
+  filter: drop-shadow(0px 0px 10px orange);
+  animation: subtleShake 1.3s infinite ease-in-out;
+    border-radius: 0;
+}
+
         /* Buttons */
-        .btn { border: 2px solid white; color: white; background: transparent; padding: 15px 40px; font-size: 1.5rem; margin-top: 30px; cursor: pointer; transition: 0.2s; font-family: inherit; text-transform: uppercase; font-weight: bold; }
+        .btn { border: 2px solid white; color: white; background: transparent; padding: 15px 40px; font-size: 1.5rem; margin-top: 30px; cursor: pointer; transition: 0.2s; font-family: inherit; text-transform: uppercase; font-weight: bold; animation: subtleShake 1.8s infinite ease-in-out; }
         .btn:hover { background: white; color: black; box-shadow: 0 0 20px white; }
         
         #mute-btn { pointer-events: auto; background: transparent; border: 3px solid rgba(255,255,255,0.5); color: white; padding: 10px; font-family: inherit; cursor: pointer; opacity: 0.7; animation: subtleShake 1.8s infinite ease-in-out; }
         #mute-btn:hover { opacity: 1; border-color: white; }
 
-        canvas { image-rendering: pixelated; }
+        canvas { image-rendering: pixelated; z-index: 1; position: absolute; top: 0; left: 0; }
     </style>
 </head>
 <body>
 
+    <img id="speed-overlay" src="https://i.postimg.cc/2jTCbX64/Project-Name-421.gif" alt="speed lines">
+
     <div id="ui-layer">
         <div>
-            <div id="score-display">SPEED: 0%</div>
-            <div id="status-display">EXCELLING</div>
-            <div id="streak-bar-container"><div id="streak-bar"></div></div>
+            <div id="score-display" class="shake-anim">SPEED: 0%</div>
+            <div id="status-display" class="shake-anim">EXCELLING</div>
+            <div id="streak-bar-container" class="shake-anim"><div id="streak-bar"></div></div>
         </div>
         
         <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
             <div id="song-container">
-                <span id="song-name"></span>
-                <img id="song-icon" src="https://i.postimg.cc/vZZnW58X/Project-Name-419.gif" alt="music">
+                <span id="song-name" class="shake-anim"></span>
+                <img id="song-icon" class="shake-anim" src="https://i.postimg.cc/vZZnW58X/Project-Name-419.gif" alt="music">
             </div>
             
             <button id="mute-btn">MUTE MUSIC</button>
@@ -106,10 +169,18 @@
     </div>
 
     <div id="start-screen">
-        <img src="https://i.postimg.cc/sXWb9KBR/Project-Name-418.png" width=400px;></img>
-        <div class="sub-text">TAP / SPACE to Switch Direction</div>
+
+        <img src="https://i.postimg.cc/sXWb9KBR/Project-Name-418.png" width=400px; id="title"></img>
+  <div class="sub-text">TAP / SPACE to Switch Direction</div>
         <div class="sub-text">Hit RINGS to Excel!</div>
-        <div class="sub-text">Avoid Sin all-around.</div>
+        <div class="sub-text2">Avoid Sin all-around.</div>
+        
+        <div class="difficulty-container">
+            <label class="difficulty-label">— D I F F I C U L T Y —</label>
+            <input type="range" id="difficulty-slider" min="0.5" max="2.5" step="0.5" value="1">
+            <div id="difficulty-value">NORMAL (1.0x)</div>
+        </div>
+
         <div id="high-score-label">BEST STREAK: 0</div>
         <button id="start-btn" class="btn">EXCEL</button>
     </div>
@@ -131,7 +202,6 @@
         import { RenderPixelatedPass } from 'three/addons/postprocessing/RenderPixelatedPass.js';
 
         // --- CONFIGURATION ---
-        // !!! UPDATE THIS LIST WITH YOUR ACTUAL FILE NAMES !!!
         const REPO_URL = "https://raw.githubusercontent.com/Jackboby/EXCELERATE/main/Song/";
         const SONG_FILES = [
             "Isaiah40.mp3", 
@@ -151,10 +221,26 @@
             { main: 0x8CEB81, bg: 0x001808 }
         ];
 
+
         // --- GAME STATE ---
         let isPlaying = false;
         let isMuted = false;
         let score = 0;
+        let frameCount = 0;
+        
+        // Difficulty Logic
+        let difficultyMultiplier = 1;
+        const diffSlider = document.getElementById('difficulty-slider');
+        const diffValueLabel = document.getElementById('difficulty-value');
+
+        diffSlider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            difficultyMultiplier = val;
+            let text = "NORMAL";
+            if(val <= 0.5) text = "FORGIVING";
+            else if(val >= 2.0) text = "TRYING";
+            diffValueLabel.innerText = `${text} (${val}x)`;
+        });
         
         // Local Storage Check
         let highScore = 0;
@@ -175,11 +261,12 @@
         // Invincibility & Cooldown Logic
         let invincibleTimer = 0;
         const INVINCIBILITY_DURATION = 65; 
-        let damageCooldown = 0; // Cooldown for taking damage/score loss
+        let damageCooldown = 0; 
 
         // Object Management
         const obstacles = [];
         const rings = [];
+        const ghosts = []; // Array for ghost particles
         let spawnTimer = 0;
 
         // Colors
@@ -271,7 +358,9 @@
             color: 0xffffff, 
             emissive: 0xffffff, 
             emissiveIntensity: 2.0,
-            roughness: 0.1
+            roughness: 0.1,
+            transparent: true,
+            opacity: 1
         });
         const player = new THREE.Mesh(playerGeo, playerMat);
         scene.add(player);
@@ -319,7 +408,6 @@
         }
 
         function createObject() {
-            // Decide whether to spawn Ring (15%) or Obstacle (85%)
             const r = Math.random();
             const xPos = (Math.random() - 0.5) * LANE_WIDTH * 1.5; 
 
@@ -327,14 +415,14 @@
                 // --- SPAWN RING ---
                 const mesh = new THREE.Mesh(ringGeo, ringMat);
                 mesh.position.set(xPos, 0.5, -120);
-                mesh.rotation.y = Math.PI / 2; // Face camera roughly
+                mesh.rotation.y = Math.PI / 2;
                 scene.add(mesh);
                 rings.push({ mesh, active: true });
             } else {
                 // --- SPAWN OBSTACLE ---
                 const size = 1.5 + Math.random() * 1.5;
                 const geo = new THREE.TetrahedronGeometry(size, 3);
-                const mat = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Pure black
+                const mat = new THREE.MeshBasicMaterial({ color: 0x000000 }); 
                 const mesh = new THREE.Mesh(geo, mat);
                 mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
                 mesh.position.set(xPos, 0, -120); 
@@ -364,8 +452,23 @@
             songName.style.color = uiColorString;
             songName.style.textShadow = `0 0 10px ${uiColorString}`;
             
-            // Tint icon using drop-shadow trick
-            icon.style.filter = `drop-shadow(0px 0px 0px ${uiColorString}) brightness(1.5)`;
+            //icon.style.filter = `drop-shadow(0px 0px 0px ${uiColorString}) brightness(1.5)`;
+        }
+
+        function spawnGhost() {
+            // Clone the material to manipulate opacity independently
+            const ghostMat = playerMat.clone();
+            ghostMat.transparent = true;
+            ghostMat.opacity = 0.4;
+            ghostMat.emissiveIntensity = 1.0;
+            
+            const ghostMesh = new THREE.Mesh(playerGeo, ghostMat);
+            ghostMesh.position.copy(player.position);
+            ghostMesh.rotation.copy(player.rotation);
+            ghostMesh.scale.copy(player.scale);
+            
+            scene.add(ghostMesh);
+            ghosts.push(ghostMesh);
         }
 
         function updatePhysics() {
@@ -379,11 +482,31 @@
                 invincibleTimer--;
                 document.getElementById('status-display').style.opacity = 1;
                 camera.fov = THREE.MathUtils.lerp(camera.fov, baseFov + 15, 0.05);
+
+                // --- GHOST PARTICLES ---
+                // Spawn a ghost every 4 frames
+                if (frameCount % 4 === 0) {
+                    spawnGhost();
+                }
+
             } else {
                 document.getElementById('status-display').style.opacity = 0;
                 camera.fov = THREE.MathUtils.lerp(camera.fov, baseFov, 0.05);
             }
             camera.updateProjectionMatrix();
+
+            // Handle Ghost Animations
+            for (let i = ghosts.length - 1; i >= 0; i--) {
+                const g = ghosts[i];
+                g.material.opacity -= 0.03; // Fade out
+                g.scale.multiplyScalar(0.96); // Shrink
+                
+                if (g.material.opacity <= 0) {
+                    scene.remove(g);
+                    g.material.dispose(); // Cleanup memory
+                    ghosts.splice(i, 1);
+                }
+            }
 
             // Base Acceleration
             if (gameSpeed < MAX_SPEED) gameSpeed += ACCELERATION;
@@ -426,28 +549,24 @@
                     if (invincibleTimer > 0) {
                         // --- SMASH THROUGH OBSTACLE ---
                         ob.active = false;
-                        score += 100; // Bonus for smashing
+                        score += 100; 
                         scene.remove(ob.mesh); 
                     } else if (damageCooldown <= 0) {
                         // --- HIT OBSTACLE (DAMAGE) ---
-                        // We do NOT set ob.active = false here, so we physically pass through it,
-                        // but damageCooldown prevents double-hitting instantly.
                         
-                        // 1. Calculate Score Penalty (Number instead of Percentage)
-                        // Base penalty: 250
-                        // Penalty increases by factor of 0.05 per 1000 score
+                        // 1. Calculate Score Penalty with DIFFICULTY SLIDER
                         const basePenalty = 30;
                         const milestones = Math.floor(score / 1000);
                         const penaltyMultiplier = 1 + (milestones * 2);
-                        const finalPenalty = Math.floor(basePenalty * penaltyMultiplier);
+                        
+                        const finalPenalty = Math.floor(basePenalty * penaltyMultiplier * difficultyMultiplier);
                         
                         score = Math.max(0, score - finalPenalty);
 
-                        // 2. Speed Penalty (Slow down, don't reset completely)
-                        // Drops speed to 60% of current, but never below BASE_SPEED
+                        // 2. Speed Penalty
                         gameSpeed = Math.max(BASE_SPEED, gameSpeed * 0.6);
                         
-                        // 3. Set Cooldown (60 frames approx 1 second)
+                        // 3. Set Cooldown
                         damageCooldown = 60; 
                         
                         // 4. Visuals
@@ -469,20 +588,19 @@
             for (let i = rings.length - 1; i >= 0; i--) {
                 const r = rings[i];
                 r.mesh.position.z += gameSpeed;
-                r.mesh.rotation.z += 0.1; // Spin ring
+                r.mesh.rotation.z += 0.1; 
 
                 const distZ = Math.abs(r.mesh.position.z - player.position.z);
                 const distX = Math.abs(r.mesh.position.x - player.position.x);
                 
-                // Ring hitbox slightly generous
                 if (r.active && distZ < 2.0 && distX < 2.5) {
                     r.active = false;
                     scene.remove(r.mesh);
                     
                     // --- BOOST EFFECT ---
-                    gameSpeed += 0.8; // Big Boost
+                    gameSpeed += 0.8; 
                     score += 500;
-                    invincibleTimer = INVINCIBILITY_DURATION; // Grant Invincibility
+                    invincibleTimer = INVINCIBILITY_DURATION; 
                     
                     // Flash White
                     const oldFog = scene.fog.color.clone();
@@ -495,7 +613,7 @@
                 }
             }
 
-            // Clean up arrays logic
+            // Clean up
             obstacles.forEach((o, index) => { if(!o.active && !o.mesh.parent) obstacles.splice(index, 1); });
             rings.forEach((r, index) => { if(!r.active && !r.mesh.parent) rings.splice(index, 1); });
 
@@ -518,6 +636,19 @@
             const speedPct = Math.floor((gameSpeed / MAX_SPEED) * 100);
             document.getElementById('score-display').innerText = `EXCELERATION: ${speedPct}% | SCORE: ${Math.floor(score)}`;
             document.getElementById('streak-bar').style.width = `${Math.min(speedPct, 100)}%`;
+
+            // --- SPEED OVERLAY UPDATE (35% THRESHOLD) ---
+            const speedRatio = Math.min(gameSpeed / MAX_SPEED, 1.0);
+            let overlayOpacity = 0;
+            
+            // Only show if speed > 35% (0.35)
+            if (speedRatio > 0.35) {
+                // Map the range [0.35 - 1.0] to [0.0 - 0.5]
+                // (current - min) / (max - min) * desiredMaxOpacity
+                overlayOpacity = ((speedRatio - 0.35) / 0.65) * 0.5;
+            }
+            
+            document.getElementById('speed-overlay').style.opacity = overlayOpacity;
         }
 
         // --- INPUT & EVENTS ---
@@ -537,7 +668,7 @@
         window.addEventListener('pointerdown', (e) => {
             if (e.target.id === 'start-btn') startGame();
             else if (e.target.id === 'mute-btn') toggleMute();
-            else handleAction();
+            else if (e.target.type !== 'range') handleAction(); 
         });
 
         window.addEventListener('keydown', (e) => {
@@ -565,12 +696,14 @@
             score = 0;
             gameSpeed = BASE_SPEED;
             invincibleTimer = 0;
-            damageCooldown = 0; // Reset Cooldown
+            damageCooldown = 0; 
             
             obstacles.forEach(o => scene.remove(o.mesh));
             obstacles.length = 0;
             rings.forEach(r => scene.remove(r.mesh));
             rings.length = 0;
+            ghosts.forEach(g => { scene.remove(g); g.material.dispose(); });
+            ghosts.length = 0;
             
             playRandomMusic();
         }
@@ -578,6 +711,7 @@
         // --- ANIMATION LOOP ---
         function animate() {
             requestAnimationFrame(animate);
+            frameCount++; 
             
             updatePhysics();
             updateColors();
@@ -594,4 +728,3 @@
 
     </script>
 </body>
-</html>
