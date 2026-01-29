@@ -7,6 +7,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+  <!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/1ztmtwxv/icon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://i.postimg.cc/1ztmtwxv/icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/1ztmtwxv/icon.png">
+  <!-- Open Graph (Facebook, Discord, LinkedIn, etc.) -->
+<meta property="og:title" content="EXCELERATE">
+<meta property="og:description" content="A Christian endless-speed game, fueled by scripture, avoid sin on every side, Excel for the Exalted.">
+<meta property="og:image" content="https://i.postimg.cc/k54J4K3r/Project_Name_424.png">
+<meta property="og:url" content="https://jackboby.github.io/EXCELERATE/">
+<meta property="og:type" content="website">
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EXCELERATE">
+<meta name="twitter:description" content="A Christian endless-speed game, fueled by scripture, avoid sin all-around, Excel for the Exalted.">
+<meta name="twitter:image" content="https://i.postimg.cc/k54J4K3r/Project_Name_424.png">
     <style>
         body { margin: 0; overflow: hidden; background-color: #050505; font-family: "Jersey 15", Courier, monospace; user-select: none; }
         
@@ -31,7 +46,7 @@
         /* Text Styles */
         .hud-text { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.4); letter-spacing: 2px; }
         #score-display { font-size: 2rem; font-weight: bold; transition: color 0.3s; }
-        #status-display { font-size: 1.5rem; color: white; font-weight: bold; text-shadow: 0 0 10px rgba(255,255,255,0.6); opacity: 0; transition: opacity 0.2s; }
+        #status-display { font-size: 1.5rem; color: white; font-weight: bold; font-style: italic; text-shadow: 0 0 10px rgba(255,255,255,0.53); opacity: 0; transition: opacity 0.3s; animation: subtleShake 0.3s infinite ease-in-out; }
         
         #streak-bar-container { width: 100%; height: 10px; background: rgba(255,255,255,0.2); margin-top: 10px; border-radius: 0px; overflow: hidden; box-shadow: 0 0 10px rgba(255,255,255,0.25); }
         #streak-bar { width: 0%; height: 100%; background: white; box-shadow: 0 0 15px white; transition: width 0.1s linear; }
@@ -146,6 +161,99 @@
 
         canvas { image-rendering: pixelated; z-index: 1; position: absolute; top: 0; left: 0; }
     </style>
+  <style>
+#creditsBtn {
+  position: fixed;
+  bottom: 20px;
+  transform: translateX(-50%);
+  padding: 5px 18px;
+  font-size: 14px;
+  background: rgba(255, 179, 28, 0.4);
+  text-shadow: 0 0 7px rgba(90, 54, 10, 1);
+  box-shadow: 0 0 14px rgba(255, 179, 28, 0.4);
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-family: "Jersey 15";
+  text-transform: uppercase;
+  animation: subtleShake 1.5s infinite ease-in-out;
+}
+#creditsBtn:active {
+  transform: translateX(-50%) translateY(4px);
+}
+
+#creditsOverlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+  z-index: 999;
+}
+#creditsOverlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#creditsOverlay::before,
+#creditsOverlay::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+#creditsOverlay::before {
+  top: 0;
+  background: linear-gradient(to bottom, black, transparent);
+}
+#creditsOverlay::after {
+  bottom: 0;
+  background: linear-gradient(to top, black, transparent);
+}
+
+#creditsScroll {
+  position: absolute;
+  width: 100%;
+  bottom: -100%;
+  text-align: center;
+  animation: scrollCredits 18s linear forwards;
+  z-index: 1;
+}
+
+.credit-line {
+  margin: 30px 0;
+  font-size: 18px;
+  color: #aaa;
+  animation: subtleShake 1.5s infinite ease-in-out;
+}
+.who {
+  font-size: 28px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6px;
+  animation: subtleShake 0.8s infinite ease-in-out;
+  text-shadow: 0 0 60px rgba(255, 186, 49, 0.35);
+}
+
+.github { color: #6e5494; }
+.bandlab { color: #ff2e63; }
+.gemini { color: #00c3ff; }
+.grace { color: #ffd166; }
+.tester { color: #06d6a0; }
+.creator { color: #f77f00; }
+.god { color: #ffffff; text-shadow: 0 0 8px rgba(255, 186, 49, 0.8); }
+
+@keyframes scrollCredits {
+  from { bottom: -100%; }
+  to { bottom: 100%; }
+}
+</style>
 </head>
 <body>
 
@@ -183,6 +291,19 @@
 
         <div id="high-score-label">BEST STREAK: 0</div>
         <button id="start-btn" class="btn">EXCEL</button>
+  <button id="creditsBtn">C R E D I T S</button>
+
+<div id="creditsOverlay">
+  <div id="creditsScroll">
+    <div class="credit-line"><span class="who github">GitHub</span> - Hoster</div>
+    <div class="credit-line"><span class="who bandlab">BandLab</span> - Music</div>
+    <div class="credit-line"><span class="who gemini">Google Gemini</span> - Game Coder</div>
+    <div class="credit-line"><span class="who grace">GRACE</span> - Inspiration</div>
+    <div class="credit-line"><span class="who tester">mr_bt</span> - Play Tester</div>
+    <div class="credit-line"><span class="who creator">dude</span> - Creator</div>
+    <div class="credit-line"><span class="who god">God</span> - the Author & Finisher</div>
+  </div>
+</div>
     </div>
 
     <script type="importmap">
@@ -193,7 +314,49 @@
             }
         }
     </script>
+<audio id="creditsMusic" src="https://raw.githubusercontent.com/Jackboby/EXCELERATE/refs/heads/main/Song/Creditsroll.mp3" loop></audio>
 
+<script>
+const btn = document.getElementById("creditsBtn");
+const overlay = document.getElementById("creditsOverlay");
+const scroll = document.getElementById("creditsScroll");
+const music = document.getElementById("creditsMusic");
+
+let fadeInterval;
+
+function fadeAudio(targetVolume, duration) {
+  clearInterval(fadeInterval);
+  const stepTime = 50;
+  const steps = duration / stepTime;
+  const volumeStep = (targetVolume - music.volume) / steps;
+
+  fadeInterval = setInterval(() => {
+    music.volume = Math.min(1, Math.max(0, music.volume + volumeStep));
+    if (Math.abs(music.volume - targetVolume) < 0.02) {
+      music.volume = targetVolume;
+      clearInterval(fadeInterval);
+      if (targetVolume === 0) music.pause();
+    }
+  }, stepTime);
+}
+
+btn.addEventListener("click", () => {
+  overlay.classList.add("show");
+
+  scroll.style.animation = "none";
+  void scroll.offsetHeight;
+  scroll.style.animation = "scrollCredits 18s linear forwards";
+
+  music.volume = 0;
+  music.play();
+  fadeAudio(1, 2000); // fade in over 2 seconds
+});
+
+overlay.addEventListener("click", () => {
+  overlay.classList.remove("show");
+  fadeAudio(0, 1500); // fade out over 2 seconds
+});
+</script>
     <script type="module">
         import * as THREE from 'three';
         import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
