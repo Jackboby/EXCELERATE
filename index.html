@@ -7,17 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
-  <!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/1ztmtwxv/icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/1ztmtwxv/icon.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://i.postimg.cc/1ztmtwxv/icon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/1ztmtwxv/icon.png">
-  <!-- Open Graph (Facebook, Discord, LinkedIn, etc.) -->
-<meta property="og:title" content="EXCELERATE">
+  <meta property="og:title" content="EXCELERATE">
 <meta property="og:description" content="A Christian endless-speed game, fueled by scripture, avoid sin on every side, Excel for the Exalted.">
 <meta property="og:image" content="https://i.postimg.cc/k54J4K3r/Project_Name_424.png">
 <meta property="og:url" content="https://jackboby.github.io/EXCELERATE/">
 <meta property="og:type" content="website">
-<!-- Twitter / X Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EXCELERATE">
 <meta name="twitter:description" content="A Christian endless-speed game, fueled by scripture, avoid sin all-around, Excel for the Exalted.">
@@ -101,7 +98,7 @@
 .difficulty-container { 
     margin-top: 25px; 
     text-align: center; 
-    width: 300px; 
+    width: 300px;
     animation: subtleShake 1.8s infinite ease-in-out; 
 }
 
@@ -118,10 +115,12 @@
     margin: 15px 0;
 }
       .difficulty-label {
-        color: rgba(255, 179, 28, 0.4); font-size: 1.2rem; text-shadow: 0 0 10px rgba(255, 179, 28, 0.4);
+        color: rgba(255, 179, 28, 0.4);
+        font-size: 1.2rem; text-shadow: 0 0 10px rgba(255, 179, 28, 0.4);
       }
       #difficulty-value {
-        color: rgba(255, 179, 28, 0.4); font-size: 1.4rem; text-shadow: 0 0 10px rgba(255, 179, 28, 0.4);
+        color: rgba(255, 179, 28, 0.4);
+        font-size: 1.4rem; text-shadow: 0 0 10px rgba(255, 179, 28, 0.4);
       }
 /* The sliding handle (Chrome, Safari, Edge, Opera) */
 #difficulty-slider::-webkit-slider-thumb {
@@ -134,7 +133,7 @@
     cursor: pointer;
     box-shadow: none;
     filter: drop-shadow(0px 0px 10px rgba(255, 179, 28, 0.4));
-  animation: subtleShake 1.3s infinite ease-in-out;
+    animation: subtleShake 1.3s infinite ease-in-out;
     border-radius: 0; /* Forced square/pixelated look */
 }
 
@@ -148,7 +147,7 @@
     box-shadow: none;
     cursor: pointer;
   filter: drop-shadow(0px 0px 10px orange);
-  animation: subtleShake 1.3s infinite ease-in-out;
+    animation: subtleShake 1.3s infinite ease-in-out;
     border-radius: 0;
 }
 
@@ -267,7 +266,8 @@
         </div>
         
         <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-            <div id="song-container">
+   
+          <div id="song-container">
                 <span id="song-name" class="shake-anim"></span>
                 <img id="song-icon" class="shake-anim" src="https://i.postimg.cc/vZZnW58X/Project-Name-419.gif" alt="music">
             </div>
@@ -276,9 +276,11 @@
         </div>
     </div>
 
-    <div id="start-screen">
+  
+   <div id="start-screen">
 
-        <img src="https://i.postimg.cc/sXWb9KBR/Project-Name-418.png" width=400px; id="title"></img>
+        <img src="https://i.postimg.cc/sXWb9KBR/Project-Name-418.png" width=400px;
+        id="title"></img>
   <div class="sub-text">TAP / SPACE to Switch Direction</div>
         <div class="sub-text">Hit RINGS to Excel!</div>
         <div class="sub-text2">Avoid Sin all-around.</div>
@@ -286,7 +288,8 @@
         <div class="difficulty-container">
             <label class="difficulty-label">— D I F F I C U L T Y —</label>
             <input type="range" id="difficulty-slider" min="0.5" max="2.5" step="0.5" value="1">
-            <div id="difficulty-value">NORMAL (1.0x)</div>
+          
+          <div id="difficulty-value">NORMAL (1.0x)</div>
         </div>
 
         <div id="high-score-label">BEST STREAK: 0</div>
@@ -312,6 +315,7 @@
                 "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
                 "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
             }
+       
         }
     </script>
 <audio id="creditsMusic" src="https://raw.githubusercontent.com/Jackboby/EXCELERATE/refs/heads/main/Song/Creditsroll.mp3" loop></audio>
@@ -329,7 +333,6 @@ function fadeAudio(targetVolume, duration) {
   const stepTime = 50;
   const steps = duration / stepTime;
   const volumeStep = (targetVolume - music.volume) / steps;
-
   fadeInterval = setInterval(() => {
     music.volume = Math.min(1, Math.max(0, music.volume + volumeStep));
     if (Math.abs(music.volume - targetVolume) < 0.02) {
@@ -351,7 +354,6 @@ btn.addEventListener("click", () => {
   music.play();
   fadeAudio(1, 2000); // fade in over 2 seconds
 });
-
 overlay.addEventListener("click", () => {
   overlay.classList.remove("show");
   fadeAudio(0, 1500); // fade out over 2 seconds
@@ -374,17 +376,15 @@ overlay.addEventListener("click", () => {
             "John3.mp3",
             "1Corinthians13.mp3"
         ];
-          
         const COLOR_PALETTES = [
             { main: 0xFFD17A, bg: 0x1D0E00 },
             { main: 0x51DBFF, bg: 0x00151A },
             { main: 0xFF70FF, bg: 0x1E001A },
             { main: 0xB179F0, bg: 0x150022 },
             { main: 0xFF5B5E, bg: 0x250009 },
+            
             { main: 0x8CEB81, bg: 0x001808 }
         ];
-
-
         // --- GAME STATE ---
         let isPlaying = false;
         let isMuted = false;
@@ -402,9 +402,9 @@ overlay.addEventListener("click", () => {
             let text = "NORMAL";
             if(val <= 0.5) text = "FORGIVING";
             else if(val >= 2.0) text = "TRYING";
+          
             diffValueLabel.innerText = `${text} (${val}x)`;
         });
-        
         // Local Storage Check
         let highScore = 0;
         try {
@@ -415,7 +415,7 @@ overlay.addEventListener("click", () => {
         let gameSpeed = 0;
         const BASE_SPEED = 0.65;
         const MAX_SPEED = 4.5;
-        const ACCELERATION = 0.0023; 
+        const ACCELERATION = 0.0025; 
         
         let playerDir = 1; 
         const PLAYER_LATERAL_SPEED = 0.4;
@@ -431,6 +431,7 @@ overlay.addEventListener("click", () => {
         const rings = [];
         const ghosts = []; // Array for ghost particles
         let spawnTimer = 0;
+        let overspeedFrameCount = 0; // --- NEW VARIABLE FOR SPEED LIMITER ---
 
         // Colors
         const currentColor = {
@@ -441,7 +442,6 @@ overlay.addEventListener("click", () => {
             main: new THREE.Color(0xFFFF00),
             bg: new THREE.Color(0x222200)
         };
-
         // --- SCENE SETUP ---
         const scene = new THREE.Scene();
         scene.fog = new THREE.FogExp2(0x000000, 0.02);
@@ -463,11 +463,9 @@ overlay.addEventListener("click", () => {
         const bgmSound = new THREE.Audio(audioListener);
         let currentSongIndex = -1;
         let isLoadingMusic = false;
-
         async function playRandomMusic() {
             if(isLoadingMusic) return;
             isLoadingMusic = true;
-
             if(bgmSound.isPlaying) bgmSound.stop();
             
             let newIndex;
@@ -536,21 +534,18 @@ overlay.addEventListener("click", () => {
             emissiveIntensity: 3.0,
             roughness: 0.0
         });
-
         // Floor Grid
         const gridHelper = new THREE.GridHelper(200, 50, 0xffffff, 0x444444);
         gridHelper.position.y = -1;
         gridHelper.position.z = -50;
         gridHelper.scale.z = 5; 
         scene.add(gridHelper);
-
         // Lights
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
         const dirLight = new THREE.DirectionalLight(0xffffff, 2);
         dirLight.position.set(0, 10, 5);
         scene.add(dirLight);
-
         // Post Processing
         const composer = new EffectComposer(renderer);
         const renderPixelatedPass = new RenderPixelatedPass(4, scene, camera);
@@ -561,7 +556,6 @@ overlay.addEventListener("click", () => {
         bloomPass.strength = 1.5; 
         bloomPass.radius = 0.5;
         composer.addPass(bloomPass);
-
         // --- FUNCTIONS ---
 
         function setThemeTarget(paletteIndex) {
@@ -572,8 +566,7 @@ overlay.addEventListener("click", () => {
 
         function createObject() {
             const r = Math.random();
-            const xPos = (Math.random() - 0.5) * LANE_WIDTH * 1.5; 
-
+            const xPos = (Math.random() - 0.5) * LANE_WIDTH * 1.5;
             if (r > 0.97) {
                 // --- SPAWN RING ---
                 const mesh = new THREE.Mesh(ringGeo, ringMat);
@@ -605,7 +598,6 @@ overlay.addEventListener("click", () => {
             bloomPass.tintColor = currentColor.main;
             
             const uiColorString = currentColor.main.getStyle();
-            
             // UI Updates
             document.getElementById('score-display').style.color = uiColorString;
             document.getElementById('streak-bar').style.boxShadow = `0 0 15px ${uiColorString}`;
@@ -636,16 +628,13 @@ overlay.addEventListener("click", () => {
 
         function updatePhysics() {
             if (!isPlaying) return;
-
             // Cooldown Logic
             if (damageCooldown > 0) damageCooldown--;
-
             // Invincibility Timer
             if (invincibleTimer > 0) {
                 invincibleTimer--;
                 document.getElementById('status-display').style.opacity = 1;
                 camera.fov = THREE.MathUtils.lerp(camera.fov, baseFov + 15, 0.05);
-
                 // --- GHOST PARTICLES ---
                 // Spawn a ghost every 4 frames
                 if (frameCount % 4 === 0) {
@@ -657,12 +646,12 @@ overlay.addEventListener("click", () => {
                 camera.fov = THREE.MathUtils.lerp(camera.fov, baseFov, 0.05);
             }
             camera.updateProjectionMatrix();
-
             // Handle Ghost Animations
             for (let i = ghosts.length - 1; i >= 0; i--) {
                 const g = ghosts[i];
                 g.material.opacity -= 0.03; // Fade out
-                g.scale.multiplyScalar(0.96); // Shrink
+                g.scale.multiplyScalar(0.96);
+                // Shrink
                 
                 if (g.material.opacity <= 0) {
                     scene.remove(g);
@@ -673,16 +662,32 @@ overlay.addEventListener("click", () => {
 
             // Base Acceleration
             if (gameSpeed < MAX_SPEED) gameSpeed += ACCELERATION;
-            
+
+            // --- 135% SPEED LIMITER LOGIC ---
+            // Check if speed is >= 135% of MAX_SPEED
+            if (gameSpeed >= MAX_SPEED * 1.35) {
+                overspeedFrameCount++;
+                
+                // 7 seconds @ 60 FPS = 420 frames
+                if (overspeedFrameCount > 420) {
+                    gameSpeed = MAX_SPEED * 0.8; // Drop to 80%
+                    overspeedFrameCount = 0;     // Reset timer
+                }
+            } else {
+                overspeedFrameCount = 0; // Reset if speed drops below threshold
+            }
+            // --------------------------------
+
             // Player Movement
             player.position.x += playerDir * PLAYER_LATERAL_SPEED;
-            
             // Wall Bounds
-            if (player.position.x > LANE_WIDTH) { player.position.x = LANE_WIDTH; playerDir = -1; } 
-            else if (player.position.x < -LANE_WIDTH) { player.position.x = -LANE_WIDTH; playerDir = 1; }
+            if (player.position.x > LANE_WIDTH) { player.position.x = LANE_WIDTH;
+            playerDir = -1; } 
+            else if (player.position.x < -LANE_WIDTH) { player.position.x = -LANE_WIDTH;
+            playerDir = 1; }
 
             // Player visual spin
-            player.rotation.y += 0.1 + (gameSpeed * 0.05); 
+            player.rotation.y += 0.1 + (gameSpeed * 0.05);
             player.rotation.z = THREE.MathUtils.lerp(player.rotation.z, 0, 0.1);
 
             // Spawning
@@ -705,7 +710,6 @@ overlay.addEventListener("click", () => {
                 const distZ = Math.abs(ob.mesh.position.z - player.position.z);
                 const distX = Math.abs(ob.mesh.position.x - player.position.x);
                 const hitSize = 1.5;
-
                 // Collision Detection
                 if (ob.active && distZ < hitSize && distX < hitSize) {
                     camera.position.x = (Math.random() - 0.5) * 2;
@@ -718,22 +722,19 @@ overlay.addEventListener("click", () => {
                         // --- HIT OBSTACLE (DAMAGE) ---
                         
                         // 1. Calculate Score Penalty with DIFFICULTY SLIDER
+      
                         const basePenalty = 30;
                         const milestones = Math.floor(score / 1000);
                         const penaltyMultiplier = 1 + (milestones * 2);
-                        
                         const finalPenalty = Math.floor(basePenalty * penaltyMultiplier * difficultyMultiplier);
                         
                         score = Math.max(0, score - finalPenalty);
-
                         // 2. Speed Penalty
                         gameSpeed = Math.max(BASE_SPEED, gameSpeed * 0.6);
-                        
                         // 3. Set Cooldown
-                        damageCooldown = 60; 
-                        
+                        damageCooldown = 60;
                         // 4. Visuals
-                        player.position.z -= 2; 
+                        player.position.z -= 2;
                         camera.position.x = (Math.random() - 0.5) * 3;
                         
                         // Flash Red
@@ -755,13 +756,12 @@ overlay.addEventListener("click", () => {
 
                 const distZ = Math.abs(r.mesh.position.z - player.position.z);
                 const distX = Math.abs(r.mesh.position.x - player.position.x);
-                
                 if (r.active && distZ < 2.0 && distX < 2.5) {
                     r.active = false;
                     scene.remove(r.mesh);
                     
                     // --- BOOST EFFECT ---
-                    gameSpeed += 0.8; 
+                    gameSpeed += 0.8;
                     score += 500;
                     invincibleTimer = INVINCIBILITY_DURATION; 
                     
@@ -779,13 +779,11 @@ overlay.addEventListener("click", () => {
             // Clean up
             obstacles.forEach((o, index) => { if(!o.active && !o.mesh.parent) obstacles.splice(index, 1); });
             rings.forEach((r, index) => { if(!r.active && !r.mesh.parent) rings.splice(index, 1); });
-
             // Restore Player Z position
             player.position.z = THREE.MathUtils.lerp(player.position.z, 0, 0.1);
             camera.position.x = THREE.MathUtils.lerp(camera.position.x, 0, 0.1);
             
             score += gameSpeed * 0.1;
-            
             // --- SAVE CHECK ---
             if (score > highScore) {
                 highScore = Math.floor(score);
@@ -799,7 +797,6 @@ overlay.addEventListener("click", () => {
             const speedPct = Math.floor((gameSpeed / MAX_SPEED) * 100);
             document.getElementById('score-display').innerText = `EXCELERATION: ${speedPct}% | SCORE: ${Math.floor(score)}`;
             document.getElementById('streak-bar').style.width = `${Math.min(speedPct, 100)}%`;
-
             // --- SPEED OVERLAY UPDATE (35% THRESHOLD) ---
             const speedRatio = Math.min(gameSpeed / MAX_SPEED, 1.0);
             let overlayOpacity = 0;
@@ -808,7 +805,8 @@ overlay.addEventListener("click", () => {
             if (speedRatio > 0.35) {
                 // Map the range [0.35 - 1.0] to [0.0 - 0.5]
                 // (current - min) / (max - min) * desiredMaxOpacity
-                overlayOpacity = ((speedRatio - 0.35) / 0.65) * 0.5;
+                overlayOpacity = ((speedRatio - 0.35) / 
+                0.65) * 0.5;
             }
             
             document.getElementById('speed-overlay').style.opacity = overlayOpacity;
@@ -821,7 +819,6 @@ overlay.addEventListener("click", () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
             composer.setSize(window.innerWidth, window.innerHeight);
         });
-
         const handleAction = () => {
             if (!isPlaying) return;
             playerDir *= -1;
@@ -833,14 +830,12 @@ overlay.addEventListener("click", () => {
             else if (e.target.id === 'mute-btn') toggleMute();
             else if (e.target.type !== 'range') handleAction(); 
         });
-
         window.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
                 if (!isPlaying && document.getElementById('start-screen').style.display !== 'none') startGame();
                 else handleAction();
             }
         });
-
         function toggleMute() {
             isMuted = !isMuted;
             const btn = document.getElementById('mute-btn');
@@ -891,3 +886,4 @@ overlay.addEventListener("click", () => {
 
     </script>
 </body>
+</html>
